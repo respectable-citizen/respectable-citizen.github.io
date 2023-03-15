@@ -10,6 +10,7 @@ def do_paginated_search(json, path):
         while True:
             r = requests.post("https://graphql.anilist.co", json=json)
             result_list = r.json()
+            print(result_list)
             if "errors" in result_list and len(result_list["errors"]) != 0:
                 #ratelimit, wait and resend
                 time.sleep(65)
