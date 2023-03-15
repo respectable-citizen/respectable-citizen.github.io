@@ -1,3 +1,5 @@
+name: Scrape kuuderes from MAL club
+
 on:
   workflow_dispatch:
   
