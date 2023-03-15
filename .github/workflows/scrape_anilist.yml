@@ -1,0 +1,17 @@
+on:
+  workflow_dispatch:
+  
+jobs:
+  scrape-anilist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo content
+        uses: actions/checkout@v3
+        
+      - name: install python packages
+        run: |
+          pip install jellyfish
+      
+      - name: execute python script
+        run: |
+          python scrape_mal.py
