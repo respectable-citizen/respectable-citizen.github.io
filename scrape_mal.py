@@ -2,6 +2,7 @@ import requests
 import re
 import anilist
 import html
+import time
 
 character_regex = r"borderClass.+?character\/(\d+)\">(.+?)<"
 media_regex = r"valign=\"top\" class=\"borderClass\"><a href=\".+?\/(anime|manga)\/(\d+).+?>(.+?)<\/a"
@@ -59,3 +60,5 @@ for character_id in characters:
 
     print(media_type, media_name)
     print("{}:{}".format(character_name, anilist_id))
+    
+    time.sleep(3) #so we don't hit the ratelimit, shitty solution but it'll stay unless it breaks
