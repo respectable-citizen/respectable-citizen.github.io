@@ -16,4 +16,4 @@ jobs:
       
       - name: execute python script
         run: |
-          python scrape_mal.py
+          python -u scrape_mal.py #-u so we can view console output in realtime
