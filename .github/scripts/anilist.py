@@ -15,6 +15,7 @@ def do_paginated_search(json, path):
         r = requests.post("https://graphql.anilist.co", json=json)
         result_list = r.json()["data"]
         
+        print(r.headers["X-RateLimit-Remaining"], "requests remaining")
         if r.headers["X-RateLimit-Remaining"] == "1":
             wait_until = first_request_timestamp + 60
             first_request_timestamp = time.time()
