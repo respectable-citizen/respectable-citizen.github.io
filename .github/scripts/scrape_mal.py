@@ -60,5 +60,3 @@ for character_id in characters:
 
     print(media_type, media_name)
     print("{}:{}".format(character_name, anilist_id))
-    
-    time.sleep(10) # so we don't hit the ratelimit, shitty solution but it'll stay unless it breaks
