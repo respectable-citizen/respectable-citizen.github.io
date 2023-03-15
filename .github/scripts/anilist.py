@@ -16,7 +16,7 @@ def do_paginated_search(json, path):
         result_list = r.json()["data"]
         
         print(r.headers["X-RateLimit-Remaining"], "requests remaining")
-        if r.headers["X-RateLimit-Remaining"] == "1":
+        if r.headers["X-RateLimit-Remaining"] == "5":
             wait_until = first_request_timestamp + 60
             first_request_timestamp = time.time()
             wait_duration = wait_until - first_request_timestamp
