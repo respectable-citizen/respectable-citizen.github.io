@@ -15,6 +15,7 @@ def do_paginated_search(json, path):
                 time.sleep(65)
             else:
                 result_list = result_list["data"]
+                break
              
         
         page = None
