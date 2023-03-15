@@ -15,6 +15,7 @@ def do_paginated_search(json, path):
         r = requests.post("https://graphql.anilist.co", json=json)
         result_list = r.json()["data"]
         
+        print(r.headers)
         print(r.headers["X-RateLimit-Remaining"], "requests remaining")
         if r.headers["X-RateLimit-Remaining"] == "5":
             time.sleep(60)
