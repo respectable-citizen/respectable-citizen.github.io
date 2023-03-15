@@ -16,6 +16,7 @@ def do_paginated_search(json, path):
         result_list = r.json()["data"]
         
         print(r.headers)
+        print(r.json())
         print(r.headers["X-RateLimit-Remaining"], "requests remaining")
         if r.headers["X-RateLimit-Remaining"] == "5":
             time.sleep(60)
