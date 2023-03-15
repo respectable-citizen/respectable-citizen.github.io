@@ -19,6 +19,7 @@ def do_paginated_search(json, path):
             wait_until = first_request_timestamp + 60
             first_request_timestamp = time.time()
             wait_duration = wait_until - first_request_timestamp
+            print("waiting {}s".format(wait_duration))
             time.sleep(wait_duration)
 
         page = None
