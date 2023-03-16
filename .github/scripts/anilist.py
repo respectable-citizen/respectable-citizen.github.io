@@ -12,7 +12,7 @@ def do_paginated_search(json, path):
             try:
                 result_list = r.json()
             except:
-                print(result_list)
+                print(r.text())
             if "errors" in result_list and len(result_list["errors"]) != 0:
                 #ratelimit, wait and resend
                 time.sleep(65)
@@ -39,7 +39,7 @@ def do_paginated_search(json, path):
 
 def get_media(character_id):
     r = do_paginated_search({
-        "query": "query character($id:Int,$page:Int,$sort:[MediaSort],$onList:Boolean,$withRoles:Boolean = false){Character(id:$id){id name{first middle last full native userPreferred alternative alternativeSpoiler}image{large}favourites isFavourite isFavouriteBlocked description age gender bloodType dateOfBirth{year month day}media(page:$page,sort:$sort,onList:$onList)@include(if:$withRoles){pageInfo{total perPage currentPage lastPage hasNextPage}edges{id characterRole voiceActorRoles(sort:[RELEVANCE,ID]){roleNotes voiceActor{id name{userPreferred}image{large}language:languageV2}}node{id type isAdult bannerImage title{userPreferred}coverImage{large}startDate{year}mediaListEntry{id status}}}}}}",
+        "query": "query character($id:Int,$page:Int,$sort:[MediaSort],$onList:Boolean,$withRoles:Boolean = false){Character(id:$id){id name{first middle last full native userPreferred alternative alternativeSpoiler}image{large}favourites isFavourite isFavouriteBlocked description age gender bloodType dateOfBirth{year month day}media(page:$page,sort:$sort,onList:$onList)@include(if:$withRoles){pageInfo{total perPage currentPage lastPage hasNextPage}edges{id characterRole voiceActorRoles(sort:[RELEVANCE,ID]){roleNotes voiceActor{id name{userPreferred}image{large}language:languageV2}}node{id type isAdult bannerImage synonyms title{userPreferred english}coverImage{large}startDate{year}mediaListEntry{id status}}}}}}",
         "variables": {
             "id": character_id,
             "page": 1,
@@ -48,9 +48,9 @@ def get_media(character_id):
             "withRoles": True
         }
     }, ["Character", "media", "edges"])
-
-    media = map(lambda media: media["node"]["title"]["userPreferred"], r)
-
+    
+    media = map(lambda media: [media["node"]["title"]["userPreferred"]] + [media["node"]["title"]["english"]] + media["node"]["synonyms"], r)
+    
     return list(media)
 
 #search for characters by name, find correct one using source
@@ -71,12 +71,16 @@ def search_characters(character, source):
     evaluated_characters = {}
     for character in characters:
         media = get_media(character["id"])
-   
+        
         highest = 0
         for media_source in media:
-            similarity = jellyfish.jaro_winkler_similarity(media_source.lower(), source.lower())
-            if similarity > highest:
-                highest = similarity
+            for title in media_source:
+                if not title:
+                    continue
+
+                similarity = jellyfish.jaro_winkler_similarity(title.lower(), source.lower())
+                if similarity > highest:
+                    highest = similarity
 
         evaluated_characters[character["id"]] = highest
 
