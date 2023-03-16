@@ -10,6 +10,7 @@ def lookup_character(character_id):
               userPreferred
             }
             image {
+              medium
               large
             }
           }
@@ -46,6 +47,6 @@ except:
 file = open("index.html", "w")
 for kuudere_id in kuudere_ids:
     character = lookup_character(kuudere_id)
-    file.write("<a href='https://anilist.co/character/{}'><img src='{}'/></a>".format(kuudere_id, character["image"]["large"]))
+    file.write("<a href='https://anilist.co/character/{}'><img src='{}'/></a>".format(kuudere_id, character["image"]["medium"]))
     print("Generated: " + character["name"]["userPreferred"])
 file.close()
