@@ -7,7 +7,7 @@ on:
     - cron: "38 3 */7 * *" # randomly selected so that the task doesn't get queued during peak periods
   
 jobs:
-  scrape-anilist:
+  scrape-mal:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo content
