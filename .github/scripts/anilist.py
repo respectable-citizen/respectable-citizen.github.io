@@ -2,24 +2,30 @@ import requests
 import jellyfish
 import time
 
+def do_request(json):
+    result = None
+        
+    while True:
+        r = requests.post("https://graphql.anilist.co", json=json)
+        
+        try:
+            result = r.json()
+        except:
+            print(r.text())
+        
+        if "errors" in result and len(result["errors"]) != 0:
+            #ratelimit, wait and resend
+            time.sleep(65)
+        else:
+            result = result["data"]
+            break
+
+    return result     
+
 def do_paginated_search(json, path):
     results = []
     while True:
-        result_list = None
-        
-        while True:
-            r = requests.post("https://graphql.anilist.co", json=json)
-            try:
-                result_list = r.json()
-            except:
-                print(r.text())
-            if "errors" in result_list and len(result_list["errors"]) != 0:
-                #ratelimit, wait and resend
-                time.sleep(65)
-            else:
-                result_list = result_list["data"]
-                break
-             
+        result_list = do_request(json) 
         
         page = None
         for key in path:
