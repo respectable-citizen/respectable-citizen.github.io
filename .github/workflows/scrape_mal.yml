@@ -3,6 +3,9 @@ name: Scrape kuuderes from MAL club
 on:
   workflow_dispatch:
   
+  schedule:
+    - cron: "38 3 */7 * *" # randomly selected so that the task doesn't get queued during peak periods
+  
 jobs:
   scrape-anilist:
     runs-on: ubuntu-latest
@@ -10,15 +13,15 @@ jobs:
       - name: checkout repo content
         uses: actions/checkout@v3
         
-      - name: install python packages
+      - name: Install Python packages
         run: |
           pip install jellyfish
       
-      - name: execute python script
+      - name: Execute Python script
         run: |
           python -u .github/scripts/scrape_mal.py # -u so we can view console output in realtime
           
-      - name: push anilist ids
+      - name: Push AniList IDs
         run: |
           git add anilist
           git config --global user.name github-actions
