@@ -46,17 +46,24 @@ def get_character_media(character_id):
 
 characters = get_characters()
 
+anilist_ids = []
+
 for character_id in characters:
     character_name = characters[character_id]
     media = get_character_media(character_id)
-    anilist_id = None
     for media_source in media:
         (media_type, media_name) = media_source
-        anilist_id_candidate = anilist.search_anilist_id(media_type, media_name, character_name)
+        anilist_id = anilist.search_anilist_id(media_type, media_name, character_name)
 
-        if anilist_id_candidate:
-            anilist_id = anilist_id_candidate
+        if anilist_id:
+            anilist_ids.append(anilist_id)
             break
 
     print(media_type, media_name)
     print("{}:{}".format(character_name, anilist_id))
+    
+    break
+    
+file = open("anilist", "w")
+file.write("\n".join(anilist_ids))
+file.close()
