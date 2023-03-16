@@ -1,0 +1,23 @@
+name: Generate website
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-website:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo content
+        uses: actions/checkout@v3
+      
+      - name: Execute Python script
+        run: |
+          python -u .github/scripts/generate_website.py # -u so we can view console output in realtime
+          
+      - name: Push AniList IDs
+        run: |
+          git add index.html
+          git config --global user.name github-actions
+          git config --global user.email github-actions@github.com
+          git commit -m "Generate website"
+          git push
