@@ -11,7 +11,7 @@ def do_request(json):
         try:
             result = r.json()
         except:
-            print(r.text())
+            print(r.text)
         
         if "errors" in result and len(result["errors"]) != 0:
             #ratelimit, wait and resend
