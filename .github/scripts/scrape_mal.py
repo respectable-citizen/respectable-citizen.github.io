@@ -49,6 +49,8 @@ characters = get_characters()
 
 anilist_ids = []
 
+count = 0
+
 for character_id in characters:
     character_name = characters[character_id]
     media = get_character_media(character_id)
@@ -62,6 +64,10 @@ for character_id in characters:
 
     print(media_type, media_name)
     print("{}:{}".format(character_name, anilist_id))
+    
+    if count == 20:
+        break
+    count += 1
     
 file = open("data/anilist.json", "w")
 file.write(json.dumps(anilist_ids))
