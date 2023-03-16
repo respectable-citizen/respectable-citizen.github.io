@@ -17,3 +17,11 @@ jobs:
       - name: execute python script
         run: |
           python -u .github/scripts/scrape_mal.py # -u so we can view console output in realtime
+          
+      - name: push anilist ids
+        run: |
+          git add anilist
+          git config --global user.name github-actions
+          git config --global user.email github-actions@github.com
+          git commit -m "Update kuudere AniList IDs from MAL club"
+          git push
