@@ -3,6 +3,7 @@ import re
 import anilist
 import html
 import time
+import json
 
 character_regex = r"borderClass.+?character\/(\d+)\">(.+?)<"
 media_regex = r"valign=\"top\" class=\"borderClass\"><a href=\".+?\/(anime|manga)\/(\d+).+?>(.+?)<\/a"
@@ -62,6 +63,6 @@ for character_id in characters:
     print(media_type, media_name)
     print("{}:{}".format(character_name, anilist_id))
     
-file = open("data/anilist", "w")
-file.write("\n".join(anilist_ids))
+file = open("data/anilist.json", "w")
+file.write(json.dumps(anilist_ids))
 file.close()
