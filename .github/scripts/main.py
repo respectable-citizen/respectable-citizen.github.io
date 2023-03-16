@@ -23,7 +23,7 @@ while len(posts):
         if result:
             character = result.group(1).strip()
             source = result.group(3).strip()
-            character_id = search_characters(character, source)
+            character_id = anilist.search_characters(character, source)
             print("{} [{}]: {}".format(character, source, character_id))
 
         time.sleep(10)
