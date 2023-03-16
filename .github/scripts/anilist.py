@@ -2,25 +2,25 @@ import requests
 import jellyfish
 import time
 
-first_request_timestamp = None
-
 def do_paginated_search(json, path):
-    global first_request_timestamp
-
     results = []
     while True:
-        if not first_request_timestamp:
-            first_request_timestamp = time.time()
-
-        r = requests.post("https://graphql.anilist.co", json=json)
-        result_list = r.json()["data"]
+        result_list = None
         
-        if r.headers["X-RateLimit-Remaining"] == "1":
-            wait_until = first_request_timestamp + 60
-            first_request_timestamp = time.time()
-            wait_duration = wait_until - first_request_timestamp
-            time.sleep(wait_duration)
-
+        while True:
+            r = requests.post("https://graphql.anilist.co", json=json)
+            try:
+                result_list = r.json()
+            except:
+                print(result_list)
+            if "errors" in result_list and len(result_list["errors"]) != 0:
+                #ratelimit, wait and resend
+                time.sleep(65)
+            else:
+                result_list = result_list["data"]
+                break
+             
+        
         page = None
         for key in path:
             if "pageInfo" in result_list:
