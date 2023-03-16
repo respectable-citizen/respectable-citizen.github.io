@@ -56,7 +56,7 @@ for character_id in characters:
         anilist_id = anilist.search_anilist_id(media_type, media_name, character_name)
 
         if anilist_id:
-            anilist_ids.append(anilist_id)
+            anilist_ids.append(str(anilist_id))
             break
 
     print(media_type, media_name)
