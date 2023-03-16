@@ -62,8 +62,6 @@ for character_id in characters:
     print(media_type, media_name)
     print("{}:{}".format(character_name, anilist_id))
     
-    break
-    
-file = open("anilist", "w")
+file = open("data/anilist", "w")
 file.write("\n".join(anilist_ids))
 file.close()
